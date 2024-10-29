@@ -1,0 +1,19 @@
+.content {
+    padding: 1rem;
+}
+
+.app {
+    width: 100%;
+    min-height: calc(100vh - 2rem);
+
+
+    .a {
+        padding: 0 1rem;
+        background: #FCE4EC;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+
+}
+

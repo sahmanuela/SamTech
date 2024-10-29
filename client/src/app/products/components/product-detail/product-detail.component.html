@@ -1,0 +1,87 @@
+<div class="user-detail my-form">
+
+    <header>
+        <h3>
+            <strong *ngIf="settingsData.action === 'new'">Adicionar produto</strong>
+            <strong *ngIf="settingsData.action === 'edit'">Editar produto</strong>
+            <strong *ngIf="settingsData.action === 'view'">Ver produto</strong>
+        </h3>
+        <button mat-raised-button color="accent" mat-dialog-close [disabled]="saving">
+            Fechar
+        </button>
+    </header>
+
+    <div class="loading" *ngIf="isLoading">
+        Carregando...
+        <div class="spinner-loading"></div>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="save()" *ngIf="!isLoading">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Nome:</mat-label>
+            <input matInput formControlName="name" [attr.disabled]="settingsData.action === 'view'" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Descrição:</mat-label>
+            <textarea matInput formControlName="description" [attr.disabled]="settingsData.action === 'view'"></textarea>
+        </mat-form-field>
+
+        <div class="form-row">
+
+            <mat-form-field appearance="outline">
+                <mat-label>Preço de Custo:</mat-label>
+                <input 
+                    matInput 
+                    type="number" 
+                    formControlName="cost_price" 
+                    [attr.disabled]="settingsData.action === 'view'" 
+                    step="0.01" 
+                    required>
+            </mat-form-field>
+    
+            <mat-form-field appearance="outline">
+                <mat-label>Preço de Venda:</mat-label>
+                <input 
+                    matInput 
+                    type="number" 
+                    formControlName="selling_price" 
+                    [attr.disabled]="settingsData.action === 'view'" 
+                    step="0.01" 
+                    required>
+            </mat-form-field>
+
+        </div>
+
+        <div class="form-row">
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo de Produto:</mat-label>
+                <mat-select formControlName="product_type_id" [disabled]="settingsData.action === 'view'" required>
+                    <mat-option *ngFor="let type of types" [value]="type.id">{{ type.label }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+    
+            <mat-form-field appearance="outline">
+                <mat-label>Fornecedor:</mat-label>
+                <mat-select formControlName="supplier_id" [disabled]="settingsData.action === 'view'" required>
+                    <mat-option *ngFor="let supplier of suppliers" [value]="supplier.id">{{ supplier.label }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+    
+        </div>
+
+        <div class="actions">
+            <button mat-raised-button type="button" color="accent" mat-dialog-close [disabled]="saving">
+                Fechar
+            </button>
+
+            <button mat-raised-button type="submit" color="primary" [disabled]="form.invalid || saving" *ngIf="settingsData.action !== 'view'">
+                Salvar
+                <div *ngIf="saving" class="spinner-loading"></div>
+            </button>
+        </div>
+
+    </form>
+
+</div>

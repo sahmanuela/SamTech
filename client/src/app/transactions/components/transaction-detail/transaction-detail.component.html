@@ -1,0 +1,88 @@
+<div class="user-detail my-form">
+
+    <header>
+        <h3>
+            <strong *ngIf="settingsData.action === 'new'">Adicionar transação</strong>
+            <strong *ngIf="settingsData.action === 'edit'">Editar transação</strong>
+            <strong *ngIf="settingsData.action === 'view'">Ver transação</strong>
+        </h3>
+        <button mat-raised-button color="accent" mat-dialog-close [disabled]="saving">
+            Fechar
+        </button>
+    </header>
+
+    <div class="loading" *ngIf="isLoading">
+        Carregando...
+        <div class="spinner-loading"></div>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="save()" *ngIf="!isLoading">
+
+        <div class="form-row">
+
+            <mat-form-field appearance="outline">
+                <mat-label>Cliente:</mat-label>
+                <mat-select formControlName="client_id" [disabled]="settingsData.action === 'view'" required>
+                    <mat-option *ngFor="let client of clients" [value]="client.id">{{ client.label }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Status:</mat-label>
+                <mat-select formControlName="status_id" [disabled]="settingsData.action === 'view'" required>
+                    <mat-option *ngFor="let op of status" [value]="op.id">{{ op.label }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Desconto:</mat-label>
+                <input matInput type="number" formControlName="discount" min="0" max="100" required />
+                <span matSuffix style="margin-right: 15px;">%</span>
+              </mat-form-field>
+
+        </div>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Descrição:</mat-label>
+            <textarea matInput formControlName="description" [attr.disabled]="settingsData.action === 'view'"></textarea>
+        </mat-form-field>
+
+        <div formArrayName="products">
+            <div *ngFor="let product of products.controls; let i = index" [formGroupName]="i" class="product-row">
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Quantidade:</mat-label>
+                <input matInput type="number" formControlName="count" min="1" required />
+              </mat-form-field>
+        
+              <mat-form-field appearance="outline">
+                <mat-label>Produto:</mat-label>
+                <mat-select formControlName="product_id" required>
+                  <mat-option *ngFor="let prod of productsList" [value]="prod.id">
+                    {{ prod.label }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+        
+              <button mat-icon-button color="warn" type="button" (click)="removeProduct(i)" *ngIf="settingsData.action !== 'view'">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+        
+            <button mat-raised-button color="primary" type="button" *ngIf="settingsData.action !== 'view'" (click)="addProduct()">Adicionar Produto</button>
+          </div>
+
+        <div class="actions">
+            <button mat-raised-button type="button" color="accent" mat-dialog-close [disabled]="saving">
+                Fechar
+            </button>
+
+            <button mat-raised-button type="submit" color="primary" [disabled]="form.invalid || saving" *ngIf="settingsData.action !== 'view'">
+                Salvar
+                <div *ngIf="saving" class="spinner-loading"></div>
+            </button>
+        </div>
+
+    </form>
+
+</div>

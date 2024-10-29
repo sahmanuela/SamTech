@@ -1,0 +1,92 @@
+<div class="user-detail my-form">
+
+    <header>
+      <h3>
+        <strong *ngIf="settingsData.action === 'new'"> Adicionar </strong>
+        <strong *ngIf="settingsData.action === 'edit'"> Editar </strong>
+        <strong *ngIf="settingsData.action === 'view'"> Ver </strong>
+      </h3>
+      <button mat-raised-button color="accent" mat-dialog-close [disabled]="saving">Fechar</button>
+    </header>
+  
+    <div class="loading" *ngIf="isLoading">
+      Carregando...
+      <div class="spinner-loading"></div>
+    </div>
+  
+    <form [formGroup]="form" (ngSubmit)="save()" *ngIf="!isLoading">
+  
+      <mat-form-field appearance="outline">
+        <mat-label>Nome:</mat-label>
+        <input 
+          matInput 
+          formControlName="name" 
+          [attr.disabled]="settingsData.action === 'view'" 
+          required>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail:</mat-label>
+        <input 
+          matInput 
+          formControlName="email" 
+          type="email" 
+          [attr.disabled]="settingsData.action === 'view'" 
+          required>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>Telefone</mat-label>
+        <input 
+          matInput 
+          formControlName="phone"
+          mask="(00) 00000-0000"  
+          [attr.disabled]="settingsData.action === 'view'" 
+          required>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo de Documento:</mat-label>
+        <mat-select 
+          formControlName="document_type_id" 
+          [disabled]="settingsData.action === 'view'">
+          <mat-option *ngFor="let type of documentTypes" [value]="type.id">
+            {{ type.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>Documento:</mat-label>
+        <input 
+          matInput 
+          formControlName="document" 
+          [attr.disabled]="settingsData.action === 'view'" 
+          required>
+      </mat-form-field>
+  
+      <div class="actions">
+        <button 
+          mat-raised-button 
+          type="button" 
+          color="accent" 
+          mat-dialog-close 
+          [disabled]="saving">
+          Fechar
+        </button>
+  
+        <button 
+          mat-raised-button 
+          type="submit" 
+          color="primary" 
+          [disabled]="form.invalid || saving" 
+          *ngIf="settingsData.action !== 'view'">
+          Salvar
+          <div *ngIf="saving" class="spinner-loading"></div>
+        </button>
+      </div>
+  
+    </form>
+  
+  </div>
+  

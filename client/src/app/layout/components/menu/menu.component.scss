@@ -1,0 +1,21 @@
+a {
+    text-decoration: none; /* no underline */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 97%;
+    height: 60px;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-menu {
+    color: #F48FB1 !important;
+}
